@@ -8,187 +8,448 @@
   <link rel="icon" href="../logo.ico" type="image/x-icon">
   <style>
     :root {
-      --bg: #0b1220;
-      --card: rgba(255, 255, 255, 0.06);
-      --border: rgba(255, 255, 255, 0.12);
-      --text: #e8eef8;
-      --muted: #9aa8be;
-      --accent: #6264a7;
-      --accent-hover: #464eb8;
-      --glow: rgba(98, 100, 167, 0.35);
+      --bg: #f4f6fb;
+      --surface: #ffffff;
+      --text: #1a1f36;
+      --muted: #5c6478;
+      --border: #e4e8f0;
+      --accent: #5b5fc7;
+      --accent-dark: #464eb8;
+      --accent-soft: #eef0ff;
+      --accent-glow: rgba(91, 95, 199, 0.22);
+      --success: #0d9f6e;
+      --shadow: 0 12px 40px rgba(26, 31, 54, 0.08);
+      --shadow-hover: 0 20px 50px rgba(91, 95, 199, 0.18);
+      --radius: 16px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
 
     body {
       min-height: 100vh;
       font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
       color: var(--text);
-      background:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(98, 100, 167, 0.2), transparent),
-        radial-gradient(ellipse 60% 40% at 100% 100%, rgba(70, 78, 184, 0.12), transparent),
-        var(--bg);
-      display: flex;
+      background: var(--bg);
+      overflow-x: hidden;
+    }
+
+    .bg-blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      transition: transform 0.4s ease-out;
+    }
+    .bg-blob-1 {
+      width: 420px; height: 420px;
+      background: rgba(91, 95, 199, 0.12);
+      top: -120px; right: -80px;
+    }
+    .bg-blob-2 {
+      width: 320px; height: 320px;
+      background: rgba(99, 179, 237, 0.15);
+      bottom: -60px; left: -60px;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 40px;
       align-items: center;
-      justify-content: center;
-      padding: 24px;
+      margin-bottom: 48px;
     }
 
-    .wrap { width: 100%; max-width: 520px; }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 40px 32px 32px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
-      text-align: center;
+    .hero-copy {
+      animation: fadeUp 0.6s ease both;
     }
 
-    .logo {
-      width: 88px;
-      height: 88px;
-      border-radius: 20px;
-      margin: 0 auto 20px;
-      box-shadow: 0 8px 32px var(--glow);
-    }
-
-    h1 {
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 6px;
-    }
-
-    .version {
-      display: inline-block;
-      font-size: 13px;
-      color: var(--muted);
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 4px 12px;
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
       margin-bottom: 20px;
     }
 
-    .desc {
-      font-size: 15px;
+    .logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px var(--accent-glow);
+      transition: transform 0.3s ease;
+    }
+    .brand:hover .logo { transform: scale(1.05) rotate(-2deg); }
+
+    .brand-text h1 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .version {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-radius: 999px;
+      padding: 4px 10px;
+    }
+    .version-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: pulse 2s infinite;
+    }
+
+    .tagline {
+      font-size: 17px;
       line-height: 1.7;
       color: var(--muted);
       margin-bottom: 28px;
+      max-width: 380px;
     }
 
-    .btn-download {
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      width: 100%;
-      max-width: 320px;
-      padding: 14px 28px;
-      font-size: 16px;
+      gap: 8px;
+      padding: 14px 24px;
+      font-size: 15px;
       font-weight: 600;
-      color: #fff;
-      background: linear-gradient(135deg, var(--accent), #464eb8);
-      border: none;
       border-radius: 12px;
+      border: none;
       cursor: pointer;
       text-decoration: none;
-      box-shadow: 0 8px 24px var(--glow);
-      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      user-select: none;
+    }
+    .btn:active { transform: scale(0.98); }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      box-shadow: 0 10px 28px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+    .btn-primary.downloading {
+      pointer-events: none;
+      opacity: 0.85;
     }
 
-    .btn-download:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 32px var(--glow);
-      background: linear-gradient(135deg, var(--accent-hover), #3b42a0);
-    }
-
-    .btn-download svg {
-      width: 20px;
-      height: 20px;
-      fill: currentColor;
-    }
-
-    .meta {
-      margin-top: 20px;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.8;
-    }
-
-    .meta a {
-      color: #a5b4fc;
-      text-decoration: none;
-    }
-
-    .meta a:hover { text-decoration: underline; }
-
-    .requirements {
-      margin-top: 28px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border);
-      text-align: left;
-    }
-
-    .requirements h2 {
-      font-size: 14px;
-      font-weight: 600;
+    .btn-ghost {
       color: var(--text);
-      margin-bottom: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
     }
 
-    .requirements ul {
-      list-style: none;
+    .btn svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+
+    .file-meta {
       font-size: 13px;
       color: var(--muted);
-      line-height: 1.9;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+    }
+    .file-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .requirements li::before {
-      content: "·";
-      margin-right: 8px;
+    .preview {
+      animation: fadeUp 0.7s 0.1s ease both;
+      position: relative;
+    }
+
+    .preview-frame {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 10px;
+      box-shadow: var(--shadow);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      cursor: zoom-in;
+    }
+    .preview-frame:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: var(--shadow-hover);
+    }
+    .preview-frame img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+    }
+    .preview-caption {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      animation: fadeUp 0.6s ease both;
+    }
+    .feature:nth-child(1) { animation-delay: 0.15s; }
+    .feature:nth-child(2) { animation-delay: 0.22s; }
+    .feature:nth-child(3) { animation-delay: 0.29s; }
+
+    .feature:hover {
+      transform: translateY(-3px);
+      border-color: #c5c9f5;
+      box-shadow: 0 12px 32px rgba(91, 95, 199, 0.1);
+    }
+
+    .feature-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 12px;
+      transition: transform 0.3s;
+    }
+    .feature:hover .feature-icon { transform: scale(1.1); }
+
+    .feature h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .feature p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 32px;
+      box-shadow: var(--shadow);
+      animation: fadeUp 0.6s 0.35s ease both;
+    }
+
+    .panel h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .checklist {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--muted);
+      padding: 12px 14px;
+      background: var(--bg);
+      border-radius: 10px;
+      transition: background 0.2s;
+    }
+    .checklist li:hover { background: var(--accent-soft); }
+    .checklist li::before {
+      content: "✓";
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--accent-soft);
       color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    @media (max-width: 480px) {
-      .card { padding: 32px 20px 24px; }
-      h1 { font-size: 24px; }
+    .footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .footer a:hover { text-decoration: underline; }
+
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--text);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s;
+      z-index: 100;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .spin { animation: spin 0.8s linear infinite; }
+
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; gap: 28px; }
+      .features { grid-template-columns: 1fr; }
+      .brand-text h1 { font-size: 26px; }
+      .page { padding-top: 32px; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <img class="logo" src="../logo.ico" alt="TeamsX" width="88" height="88">
-      <h1>TeamsX</h1>
-      <span class="version" id="version-tag">v2.2.0</span>
-      <p class="desc">
-        Microsoft Teams 多开客户端。<br>
-        支持多账号、消息通知、通话提醒与 Cookie 持久化。
-      </p>
+  <div class="bg-blob bg-blob-1" id="blob1"></div>
+  <div class="bg-blob bg-blob-2" id="blob2"></div>
 
-      <a class="btn-download" id="download-btn" href="#" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
-        下载 Windows 安装包
-      </a>
-
-      <div class="meta">
-        <div id="file-info">TeamsX_Setup_2.2.0.exe</div>
-        <div>也可在 <a id="releases-link" href="https://github.com/IMAF7/TeamsX/releases" target="_blank" rel="noopener">GitHub Releases</a> 查看所有版本</div>
+  <div class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="brand">
+          <img class="logo" src="../logo.ico" alt="TeamsX" width="56" height="56">
+          <div class="brand-text">
+            <h1>TeamsX</h1>
+            <span class="version" id="version-tag"><span class="version-dot"></span>v2.2.0</span>
+          </div>
+        </div>
+        <p class="tagline">
+          Microsoft Teams 多开客户端。多账号独立登录、消息通知、通话提醒，一个窗口轻松管理。
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" id="download-btn" href="#" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+            <span id="btn-label">下载 Windows 安装包</span>
+          </a>
+          <button class="btn btn-ghost" id="copy-btn" type="button">
+            <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            复制下载链接
+          </button>
+          <a class="btn btn-ghost" id="releases-link" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+            历史版本
+          </a>
+        </div>
+        <div class="file-meta">
+          <span id="file-info">TeamsX_Setup_2.2.0.exe</span>
+          <span>约 157 MB</span>
+          <span>Windows 64 位</span>
+        </div>
       </div>
 
-      <div class="requirements">
-        <h2>系统要求</h2>
-        <ul>
-          <li>Windows 10 / 11（64 位）</li>
-          <li>Microsoft Edge WebView2 Runtime（通常已随系统安装）</li>
-          <li>无需安装 Python</li>
-        </ul>
+      <div class="preview">
+        <div class="preview-frame" id="preview-frame" title="点击放大预览">
+          <img src="../assets/1.png" alt="TeamsX 主界面预览" loading="lazy">
+        </div>
+        <p class="preview-caption">多账号列表 + Teams 网页，一目了然</p>
       </div>
-    </div>
+    </section>
+
+    <section class="features">
+      <article class="feature">
+        <div class="feature-icon">👥</div>
+        <h3>多账号管理</h3>
+        <p>独立 Cookie 与登录态，分组、置顶、搜索备注，互不串号。</p>
+      </article>
+      <article class="feature">
+        <div class="feature-icon">🔔</div>
+        <h3>消息与来电</h3>
+        <p>未读角标、提示音与来电铃声，重要消息不错过。</p>
+      </article>
+      <article class="feature">
+        <div class="feature-icon">🤖</div>
+        <h3>TeamsXAi</h3>
+        <p>内置 AI 对话，与 Teams 隔离，按 Esc 快速切换。</p>
+      </article>
+    </section>
+
+    <section class="panel">
+      <h2>系统要求</h2>
+      <ul class="checklist">
+        <li>Windows 10 / 11（64 位）</li>
+        <li>Microsoft Edge WebView2 Runtime</li>
+        <li>无需安装 Python</li>
+        <li>数据默认保存在 D:\TeamsX</li>
+      </ul>
+    </section>
+
+    <p class="footer">
+      <a href="https://github.com/IMAF7/TeamsX" target="_blank" rel="noopener">GitHub 仓库</a>
+      · 安装即表示同意软件使用条款
+    </p>
   </div>
+
+  <div class="toast" id="toast"></div>
 
   <script>
     (function () {
@@ -198,9 +459,51 @@
       var downloadUrl = "https://github.com/" + GITHUB_REPO + "/releases/latest/download/" + SETUP_NAME;
       var releasesUrl = "https://github.com/" + GITHUB_REPO + "/releases";
 
-      document.getElementById("download-btn").href = downloadUrl;
+      var downloadBtn = document.getElementById("download-btn");
+      var copyBtn = document.getElementById("copy-btn");
+      var toast = document.getElementById("toast");
+      var btnLabel = document.getElementById("btn-label");
+
+      downloadBtn.href = downloadUrl;
       document.getElementById("releases-link").href = releasesUrl;
-      document.getElementById("version-tag").textContent = "v" + VERSION;
+      document.getElementById("version-tag").innerHTML =
+        '<span class="version-dot"></span>v' + VERSION;
+
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add("show");
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(function () { toast.classList.remove("show"); }, 2400);
+      }
+
+      downloadBtn.addEventListener("click", function () {
+        downloadBtn.classList.add("downloading");
+        btnLabel.textContent = "正在开始下载…";
+        setTimeout(function () {
+          downloadBtn.classList.remove("downloading");
+          btnLabel.textContent = "下载 Windows 安装包";
+          showToast("下载已开始，请查看浏览器下载栏");
+        }, 1200);
+      });
+
+      copyBtn.addEventListener("click", function () {
+        navigator.clipboard.writeText(downloadUrl).then(function () {
+          showToast("下载链接已复制到剪贴板");
+        }).catch(function () {
+          showToast("复制失败，请手动复制地址栏链接");
+        });
+      });
+
+      document.getElementById("preview-frame").addEventListener("click", function () {
+        window.open("../assets/1.png", "_blank");
+      });
+
+      document.addEventListener("mousemove", function (e) {
+        var x = (e.clientX / window.innerWidth - 0.5) * 30;
+        var y = (e.clientY / window.innerHeight - 0.5) * 30;
+        document.getElementById("blob1").style.transform = "translate(" + x + "px," + y + "px)";
+        document.getElementById("blob2").style.transform = "translate(" + (-x * 0.6) + "px," + (-y * 0.6) + "px)";
+      });
     })();
   </script>
 </body>
