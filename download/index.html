@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeamsX 下载</title>
+  <meta name="description" content="TeamsX — Microsoft Teams 多开客户端，Windows 安装包下载">
+  <link rel="icon" href="../logo.ico" type="image/x-icon">
+  <style>
+    :root {
+      --bg: #0b1220;
+      --card: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.12);
+      --text: #e8eef8;
+      --muted: #9aa8be;
+      --accent: #6264a7;
+      --accent-hover: #464eb8;
+      --glow: rgba(98, 100, 167, 0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(98, 100, 167, 0.2), transparent),
+        radial-gradient(ellipse 60% 40% at 100% 100%, rgba(70, 78, 184, 0.12), transparent),
+        var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .wrap { width: 100%; max-width: 520px; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 32px 32px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+      text-align: center;
+    }
+
+    .logo {
+      width: 88px;
+      height: 88px;
+      border-radius: 20px;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 32px var(--glow);
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .version {
+      display: inline-block;
+      font-size: 13px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 12px;
+      margin-bottom: 20px;
+    }
+
+    .desc {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 320px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), #464eb8);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 8px 24px var(--glow);
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px var(--glow);
+      background: linear-gradient(135deg, var(--accent-hover), #3b42a0);
+    }
+
+    .btn-download svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .meta {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .meta a {
+      color: #a5b4fc;
+      text-decoration: none;
+    }
+
+    .meta a:hover { text-decoration: underline; }
+
+    .requirements {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      text-align: left;
+    }
+
+    .requirements h2 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .requirements ul {
+      list-style: none;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .requirements li::before {
+      content: "·";
+      margin-right: 8px;
+      color: var(--accent);
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 32px 20px 24px; }
+      h1 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <img class="logo" src="../logo.ico" alt="TeamsX" width="88" height="88">
+      <h1>TeamsX</h1>
+      <span class="version" id="version-tag">v2.2.0</span>
+      <p class="desc">
+        Microsoft Teams 多开客户端。<br>
+        支持多账号、消息通知、通话提醒与 Cookie 持久化。
+      </p>
+
+      <a class="btn-download" id="download-btn" href="#" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
+        下载 Windows 安装包
+      </a>
+
+      <div class="meta">
+        <div id="file-info">TeamsX_Setup_2.2.0.exe</div>
+        <div>也可在 <a id="releases-link" href="https://github.com/IMAF7/TeamsX/releases" target="_blank" rel="noopener">GitHub Releases</a> 查看所有版本</div>
+      </div>
+
+      <div class="requirements">
+        <h2>系统要求</h2>
+        <ul>
+          <li>Windows 10 / 11（64 位）</li>
+          <li>Microsoft Edge WebView2 Runtime（通常已随系统安装）</li>
+          <li>无需安装 Python</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var GITHUB_REPO = "IMAF7/TeamsX";
+      var VERSION = "2.2.0";
+      var SETUP_NAME = "TeamsX_Setup_" + VERSION + ".exe";
+      var downloadUrl = "https://github.com/" + GITHUB_REPO + "/releases/latest/download/" + SETUP_NAME;
+      var releasesUrl = "https://github.com/" + GITHUB_REPO + "/releases";
+
+      document.getElementById("download-btn").href = downloadUrl;
+      document.getElementById("releases-link").href = releasesUrl;
+      document.getElementById("version-tag").textContent = "v" + VERSION;
+    })();
+  </script>
+</body>
+</html>
