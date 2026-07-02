@@ -59,4 +59,4 @@ python -m teamsx        # 启动
 
 ## 许可证
 
-本项目仅供个人学习与内部使用。
+本项目采用 [MIT License](LICENSE) 开源协议。
